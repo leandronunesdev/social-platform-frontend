@@ -1,14 +1,22 @@
 "use client";
 
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import Input from "@/components/input";
 import Button from "@/components/button";
 import AuthPage from "@/components/auth-page";
 import AuthLink from "@/components/auth-link";
 import { registerSchema, type RegisterFormData } from "@/app/register/register";
+import { registerAccount } from "@/lib/api/auth";
+import { ApiClientError } from "@/lib/api/client";
 
 export default function RegisterPage() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+
   const {
     register,
     handleSubmit,
@@ -18,13 +26,32 @@ export default function RegisterPage() {
   });
 
   const onSubmit = async (data: RegisterFormData) => {
-    console.log("Form data:", data);
-    // TODO: Implement API call to POST /registerAccount
+    setIsLoading(true);
+    setApiError(null);
+
+    try {
+      await registerAccount(data);
+      router.push("/profile/setup");
+    } catch (error) {
+      if (error instanceof ApiClientError) {
+        setApiError(error.message);
+      } else {
+        setApiError("An unexpected error occurred. Please try again.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <AuthPage>
       <form onSubmit={handleSubmit(onSubmit)}>
+        {apiError && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+            <p className="text-red-600 text-sm">{apiError}</p>
+          </div>
+        )}
+
         <Input
           label="name"
           type="text"
@@ -71,7 +98,12 @@ export default function RegisterPage() {
           error={errors.confirmPassword}
         />
 
-        <Button type="submit" label="sign up" marginBottom="mb-8" />
+        <Button
+          type="submit"
+          label={isLoading ? "Signing up..." : "sign up"}
+          marginBottom="mb-8"
+          disabled={isLoading}
+        />
 
         <AuthLink
           text={"Already have an account?"}
