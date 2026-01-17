@@ -7,6 +7,7 @@ type RegisterAccountResponse = {
   username: string;
   email: string;
   creationDate: string;
+  token: string; // JWT token returned from API
 };
 
 export async function registerAccount(
@@ -18,5 +19,6 @@ export async function registerAccount(
   return apiClient<RegisterAccountResponse>("/auth/registerAccount", {
     method: "POST",
     body: accountData,
+    requireAuth: false, // Registration doesn't need auth
   });
 }

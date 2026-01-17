@@ -11,6 +11,7 @@ import AuthLink from "@/components/auth-link";
 import { registerSchema, type RegisterFormData } from "@/app/register/register";
 import { registerAccount } from "@/lib/api/auth";
 import { ApiClientError } from "@/lib/api/client";
+import { saveToken } from "@/lib/auth/token";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -30,7 +31,9 @@ export default function RegisterPage() {
     setApiError(null);
 
     try {
-      await registerAccount(data);
+      const response = await registerAccount(data);
+      // Save JWT token to localStorage
+      saveToken(response.token);
       router.push("/profile/setup");
     } catch (error) {
       if (error instanceof ApiClientError) {

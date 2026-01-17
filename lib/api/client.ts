@@ -1,7 +1,10 @@
+import { getToken } from "@/lib/auth/token";
+
 type RequestConfig = {
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
   headers?: Record<string, string>;
   body?: unknown;
+  requireAuth?: boolean; // Whether to attach auth token
 };
 
 type ApiError = {
@@ -25,12 +28,20 @@ async function apiClient<T>(
 ): Promise<T> {
   const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
 
-  const { method = "GET", headers = {}, body } = config;
+  const { method = "GET", headers = {}, body, requireAuth = false } = config;
 
   const defaultHeaders: Record<string, string> = {
     "Content-Type": "application/json",
     ...headers,
   };
+
+  // Attach auth token if required
+  if (requireAuth) {
+    const token = getToken();
+    if (token) {
+      defaultHeaders["Authorization"] = `Bearer ${token}`;
+    }
+  }
 
   try {
     const response = await fetch(`${apiUrl}${endpoint}`, {
