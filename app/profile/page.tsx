@@ -7,13 +7,13 @@ import { useRouter } from "next/navigation";
 import Input from "@/components/input";
 import Button from "@/components/button";
 import AuthPage from "@/components/auth-page";
-import AuthLink from "@/components/auth-link";
-import { registerSchema, type RegisterFormData } from "@/app/register/schema";
-import { registerAccount } from "@/lib/api/auth";
+import { registerAccount, updateProfile } from "@/lib/api/auth";
 import { ApiClientError } from "@/lib/api/client";
 import { saveToken } from "@/lib/auth/token";
+import TextArea from "@/components/textarea";
+import { ProfileFormData, profileSchema } from "./schema";
 
-export default function RegisterPage() {
+export default function UpdateProfilePage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
@@ -22,19 +22,17 @@ export default function RegisterPage() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RegisterFormData>({
-    resolver: zodResolver(registerSchema),
+  } = useForm<ProfileFormData>({
+    resolver: zodResolver(profileSchema),
   });
 
-  const onSubmit = async (data: RegisterFormData) => {
+  const onSubmit = async (data: ProfileFormData) => {
     setIsLoading(true);
     setApiError(null);
 
     try {
-      const response = await registerAccount(data);
-      // Save JWT token to localStorage
-      saveToken(response.token);
-      router.push("/profile");
+      const response = await updateProfile(data);
+      router.push("/home");
     } catch (error) {
       if (error instanceof ApiClientError) {
         setApiError(error.message);
@@ -55,64 +53,53 @@ export default function RegisterPage() {
           </div>
         )}
 
+        <p className="text-center pb-7">Complete your profile</p>
+
+        <TextArea label="about you" id="bio" />
+
         <Input
-          label="name"
+          label="country"
           type="text"
-          id="name"
-          placeholder="John Doe"
+          id="country"
+          placeholder="Brazil"
           register={register}
-          error={errors.name}
+          error={errors.country}
         />
 
         <Input
-          label="username"
+          label="state"
           type="text"
-          id="username"
-          placeholder="john.doe"
+          id="state"
+          placeholder="Paraná"
           register={register}
-          error={errors.username}
+          error={errors.state}
         />
 
         <Input
-          label="email"
-          type="email"
-          id="email"
-          placeholder="john.doe@email.com"
+          label="city"
+          type="text"
+          id="city"
+          placeholder="Curitiba"
           register={register}
-          error={errors.email}
+          error={errors.city}
         />
 
         <Input
-          label="password"
-          type="password"
-          id="password"
-          placeholder="**********"
+          label="avatar url"
+          type="text"
+          id="avatar"
+          placeholder="https://host.com/avatar.jpg"
           register={register}
-          error={errors.password}
-        />
-
-        <Input
-          label="confirm password"
-          type="password"
-          id="confirmPassword"
-          placeholder="**********"
+          error={errors.avatarUrl}
           paddingBottom="pb-12"
-          register={register}
-          error={errors.confirmPassword}
         />
 
         <Button
           type="submit"
-          label={isLoading ? "Signing up..." : "sign up"}
-          marginBottom="mb-8"
+          label={isLoading ? "Submitting" : "continue"}
           disabled={isLoading}
         />
 
-        <AuthLink
-          text={"Already have an account?"}
-          linkText="Sign in"
-          href="/login"
-        />
       </form>
     </AuthPage>
   );

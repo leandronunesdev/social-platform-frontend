@@ -1,24 +1,34 @@
+import { ProfileFormData } from "@/app/profile/schema";
 import apiClient from "./client";
-import type { RegisterFormData } from "@/app/register/register";
+import type { RegisterFormData } from "@/app/register/schema";
 
 type RegisterAccountResponse = {
-  id: string;
-  name: string;
-  username: string;
-  email: string;
-  creationDate: string;
-  token: string; // JWT token returned from API
+  token: string;
 };
 
 export async function registerAccount(
   data: RegisterFormData
 ): Promise<RegisterAccountResponse> {
-  // Remove confirmPassword before sending to API
   const { confirmPassword, ...accountData } = data;
 
   return apiClient<RegisterAccountResponse>("/auth/registerAccount", {
     method: "POST",
     body: accountData,
-    requireAuth: false, // Registration doesn't need auth
+    requireAuth: false,
+  });
+}
+
+type UpdateProfileResponse = {
+  message: string
+}
+
+export async function updateProfile(
+  data: ProfileFormData
+): Promise<UpdateProfileResponse> {
+
+  return apiClient<UpdateProfileResponse>("/auth/updateProfile", {
+    method: "PUT",
+    body: data,
+    requireAuth: true,
   });
 }
