@@ -1,4 +1,4 @@
-import { getToken } from "@/lib/auth/token";
+import { getToken, removeToken } from "@/lib/auth/token";
 
 type RequestConfig = {
   method?: "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
@@ -53,6 +53,15 @@ async function apiClient<T>(
     const data = await response.json();
 
     if (!response.ok) {
+      // Handle 401 Unauthorized - token expired or invalid
+      if (response.status === 401) {
+        removeToken();
+        // Redirect to login (only in browser)
+        if (typeof window !== "undefined") {
+          window.location.href = "/login";
+        }
+      }
+
       throw new ApiClientError(
         data.message || `API error: ${response.statusText}`,
         response.status

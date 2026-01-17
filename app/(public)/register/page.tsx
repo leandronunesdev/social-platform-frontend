@@ -8,7 +8,7 @@ import Input from "@/components/input";
 import Button from "@/components/button";
 import AuthPage from "@/components/auth-page";
 import AuthLink from "@/components/auth-link";
-import { registerSchema, type RegisterFormData } from "@/app/register/schema";
+import { registerSchema, type RegisterFormData } from "./schema";
 import { registerAccount } from "@/lib/api/auth";
 import { ApiClientError } from "@/lib/api/client";
 import { saveToken } from "@/lib/auth/token";

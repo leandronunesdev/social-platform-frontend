@@ -22,3 +22,33 @@ export function removeToken(): void {
 export function hasToken(): boolean {
   return getToken() !== null;
 }
+
+/**
+ * Decodes JWT token and checks if it's expired
+ * Returns true if token is valid and not expired
+ */
+export function isTokenValid(): boolean {
+  const token = getToken();
+  if (!token) return false;
+
+  try {
+    // JWT structure: header.payload.signature
+    const payload = token.split(".")[1];
+    if (!payload) return false;
+
+    // Decode base64 payload
+    const decoded = JSON.parse(atob(payload));
+
+    // Check expiration (exp is in seconds, Date.now() is in milliseconds)
+    if (decoded.exp && decoded.exp * 1000 < Date.now()) {
+      removeToken(); // Remove expired token
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    // Invalid token format
+    removeToken();
+    return false;
+  }
+}
