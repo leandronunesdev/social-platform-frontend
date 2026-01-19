@@ -12,6 +12,7 @@ import { ApiClientError } from "@/lib/api/client";
 import { saveToken } from "@/lib/auth/token";
 import TextArea from "@/components/textarea";
 import { ProfileFormData, profileSchema } from "./schema";
+import ErrorMessage from "@/components/error-message";
 
 export default function UpdateProfilePage() {
   const router = useRouter();
@@ -47,11 +48,7 @@ export default function UpdateProfilePage() {
   return (
     <AuthPage>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {apiError && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-600 text-sm">{apiError}</p>
-          </div>
-        )}
+        {apiError && <ErrorMessage message={apiError} />}
 
         <p className="text-center pb-7">Complete your profile</p>
 
@@ -99,7 +96,6 @@ export default function UpdateProfilePage() {
           label={isLoading ? "Submitting" : "continue"}
           disabled={isLoading}
         />
-
       </form>
     </AuthPage>
   );

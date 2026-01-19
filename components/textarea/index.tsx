@@ -37,15 +37,17 @@ const TextArea = ({
         placeholder={placeholder}
         required={required}
         className={`resize-none w-full rounded-lg shadow-sm px-3 py-2 focus:outline-none ${
-          error
-            && "border-2 border-red-500 bg-red-50"
+          error && "border-2 border-red-500 bg-red-50"
         }`}
         aria-invalid={error ? "true" : "false"}
         aria-describedby={error ? `${id}-error` : undefined}
-
       />
       {error && (
-        <p id={`${id}-error`} className="text-red-600 text-sm mt-1" role="alert">
+        <p
+          id={`${id}-error`}
+          className="text-red-600 text-sm mt-1"
+          role="alert"
+        >
           {error.message}
         </p>
       )}

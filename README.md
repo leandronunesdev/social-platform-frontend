@@ -12,11 +12,13 @@ A Next.js frontend for a social media platform MVP.
 ## Getting Started
 
 1. Install dependencies:
+
 ```bash
 yarn install
 ```
 
 2. Run the development server:
+
 ```bash
 yarn dev
 ```

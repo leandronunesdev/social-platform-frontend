@@ -12,6 +12,7 @@ import { registerSchema, type RegisterFormData } from "./schema";
 import { registerAccount } from "@/lib/api/auth";
 import { ApiClientError } from "@/lib/api/client";
 import { saveToken } from "@/lib/auth/token";
+import ErrorMessage from "@/components/error-message";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -32,7 +33,6 @@ export default function RegisterPage() {
 
     try {
       const response = await registerAccount(data);
-      // Save JWT token to localStorage
       saveToken(response.token);
       router.push("/profile");
     } catch (error) {
@@ -49,11 +49,7 @@ export default function RegisterPage() {
   return (
     <AuthPage>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {apiError && (
-          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
-            <p className="text-red-600 text-sm">{apiError}</p>
-          </div>
-        )}
+        {apiError && <ErrorMessage message={apiError} />}
 
         <Input
           label="name"
@@ -103,7 +99,7 @@ export default function RegisterPage() {
 
         <Button
           type="submit"
-          label={isLoading ? "Signing up..." : "sign up"}
+          label={isLoading ? "signing up..." : "sign up"}
           marginBottom="mb-8"
           disabled={isLoading}
         />
