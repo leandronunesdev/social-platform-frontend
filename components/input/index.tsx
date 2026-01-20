@@ -35,6 +35,8 @@ const Input = ({
         className={`w-full h-10 rounded-lg shadow-sm px-3 focus:outline-none ${
           error ? "bg-red-50" : ""
         }`}
+        aria-invalid={!!error}
+        aria-describedby={error?.message}
       />
       {error && <p className="text-red-600 text-sm mt-1">{error.message}</p>}
     </div>
