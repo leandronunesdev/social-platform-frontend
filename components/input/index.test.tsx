@@ -4,12 +4,14 @@
  * This is a reference example. Implement your own tests following this pattern.
  */
 
+/// <reference types="@testing-library/jest-dom" />
+import React from "react";
 import { render, screen } from "@testing-library/react";
 import { renderHook } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import "@testing-library/jest-dom";
 import { useForm } from "react-hook-form";
-import Input from "@/components/input";
+import Input from ".";
 
 describe("Input Component", () => {
   it("should render input with label", () => {
