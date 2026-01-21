@@ -4,16 +4,22 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { hasToken } from "@/lib/auth/token";
 
-export default function HomePage() {
+type ProtectedRouteProps = {
+  children: React.ReactNode;
+};
+
+export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const router = useRouter();
 
   useEffect(() => {
-    if (hasToken()) {
-      router.push("/home");
-    } else {
+    if (!hasToken()) {
       router.push("/login");
     }
   }, [router]);
 
-  return null;
+  if (!hasToken()) {
+    return null;
+  }
+
+  return <>{children}</>;
 }

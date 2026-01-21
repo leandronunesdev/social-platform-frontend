@@ -33,5 +33,11 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# Testing
+coverage
+.nyc_output
+cypress/videos
+cypress/screenshots
+
 # Study folder (documentation)
 study
