@@ -45,6 +45,6 @@ describe("TextArea Component", () => {
 
     await user.type(textarea, text);
 
-    expect(result.current.getValues(label)).toBe(text);
+    expect(result.current.getValues("bio")).toBe(text);
   });
 });
