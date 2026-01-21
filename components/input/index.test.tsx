@@ -1,10 +1,3 @@
-/**
- * Example component test using React Testing Library
- *
- * This is a reference example. Implement your own tests following this pattern.
- */
-
-/// <reference types="@testing-library/jest-dom" />
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { renderHook } from "@testing-library/react";
