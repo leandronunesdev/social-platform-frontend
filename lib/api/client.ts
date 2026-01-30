@@ -26,7 +26,7 @@ async function apiClient<T>(
   endpoint: string,
   config: RequestConfig = {}
 ): Promise<T> {
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000/api";
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:4000";
 
   const { method = "GET", headers = {}, body, requireAuth = false } = config;
 
