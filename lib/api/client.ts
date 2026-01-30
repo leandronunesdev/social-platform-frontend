@@ -53,10 +53,10 @@ async function apiClient<T>(
     const data = await response.json();
 
     if (!response.ok) {
-      // Handle 401 Unauthorized - token expired or invalid
-      if (response.status === 401) {
+      // Handle 401 only for authenticated requests (token expired or invalid)
+      // Don't redirect on login/register 401 — let the page show the error
+      if (response.status === 401 && requireAuth) {
         removeToken();
-        // Redirect to login (only in browser)
         if (typeof window !== "undefined") {
           window.location.href = "/login";
         }
