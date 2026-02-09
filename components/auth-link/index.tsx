@@ -13,6 +13,7 @@ const AuthLink = ({ text, linkText, href }: AuthLinkProps) => {
         {text}{" "}
         <Link
           href={href}
+          prefetch={false}
           className="underline hover:text-primary-500 transition-colors duration-200"
         >
           {linkText}
