@@ -37,10 +37,11 @@ beforeEach(() => {
   const mockToken = createMockToken();
 
   // Use pattern matching to catch API calls regardless of the base URL
+  // App uses NEXT_PUBLIC_API_URL + /auth/login (no /api/ in path)
   // This works with both localhost:4000 and any other API URL
 
   // Mock login endpoint
-  cy.intercept("POST", "**/api/auth/login", (req) => {
+  cy.intercept("POST", "**/auth/login", (req) => {
     const { email, password } = req.body;
 
     // Simulate successful login for valid credentials
@@ -64,7 +65,7 @@ beforeEach(() => {
   }).as("loginRequest");
 
   // Mock registration endpoint
-  cy.intercept("POST", "**/api/auth/registerAccount", {
+  cy.intercept("POST", "**/auth/registerAccount", {
     statusCode: 200,
     body: {
       token: mockToken,
@@ -72,7 +73,7 @@ beforeEach(() => {
   }).as("registerRequest");
 
   // Mock profile update endpoint
-  cy.intercept("PUT", "**/api/auth/updateProfile", {
+  cy.intercept("PUT", "**/auth/updateProfile", {
     statusCode: 200,
     body: {
       message: "Profile updated successfully",
