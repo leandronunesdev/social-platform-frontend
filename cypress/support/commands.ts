@@ -29,7 +29,9 @@ export function generateRandomEmail(): string {
 
 Cypress.Commands.add("login", (email: string, password: string) => {
   cy.visit("/login");
-  cy.get('input[id="email"]').type(email);
+  cy.get('input[id="email"]', { timeout: 10000 })
+    .should("be.visible")
+    .type(email);
   cy.get('input[id="password"]').type(password);
   cy.get('button[type="submit"]').click();
 });
