@@ -12,7 +12,7 @@ import { login } from "@/lib/api/auth";
 import { saveToken } from "@/lib/auth/token";
 import { useRouter } from "next/navigation";
 import { ApiClientError } from "@/lib/api/client";
-import ErrorMessage from "@/components/error-message";
+import Message from "@/components/message";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -49,7 +49,7 @@ export default function LoginPage() {
   return (
     <AuthPage>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {apiError && <ErrorMessage message={apiError} />}
+        {apiError && <Message message={apiError} />}
 
         <Input
           label="email"
@@ -65,15 +65,22 @@ export default function LoginPage() {
           type="password"
           id="password"
           placeholder="*********"
-          paddingBottom="pb-12"
+          className="pb-2"
           register={register}
           error={errors.password}
+        />
+
+        <AuthLink
+          text={""}
+          linkText="Forgot your password?"
+          href="/password-reset"
+          className="flex justify-end pb-5"
         />
 
         <Button
           type="submit"
           label={isLoading ? "signing in" : "sign in"}
-          marginBottom="mb-8"
+          className="mb-8"
           disabled={isLoading}
         />
 

@@ -7,12 +7,11 @@ import { useRouter } from "next/navigation";
 import Input from "@/components/input";
 import Button from "@/components/button";
 import AuthPage from "@/components/auth-page";
-import { registerAccount, updateProfile } from "@/lib/api/auth";
+import { updateProfile } from "@/lib/api/auth";
 import { ApiClientError } from "@/lib/api/client";
-import { saveToken } from "@/lib/auth/token";
 import TextArea from "@/components/textarea";
 import { ProfileFormData, profileSchema } from "./schema";
-import ErrorMessage from "@/components/error-message";
+import Message from "@/components/message";
 
 export default function UpdateProfilePage() {
   const router = useRouter();
@@ -32,7 +31,7 @@ export default function UpdateProfilePage() {
     setApiError(null);
 
     try {
-      const response = await updateProfile(data);
+      await updateProfile(data);
       router.push("/home");
     } catch (error) {
       if (error instanceof ApiClientError) {
@@ -48,7 +47,7 @@ export default function UpdateProfilePage() {
   return (
     <AuthPage>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {apiError && <ErrorMessage message={apiError} />}
+        {apiError && <Message message={apiError} />}
 
         <p className="text-center pb-7">Complete your profile</p>
 
@@ -88,7 +87,7 @@ export default function UpdateProfilePage() {
           placeholder="https://host.com/avatar.jpg"
           register={register}
           error={errors.avatarUrl}
-          paddingBottom="pb-12"
+          className="pb-12"
         />
 
         <Button
