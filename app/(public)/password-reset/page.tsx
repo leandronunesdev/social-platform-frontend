@@ -12,8 +12,9 @@ import { useRouter } from "next/navigation";
 import { ApiClientError } from "@/lib/api/client";
 import Message from "@/components/message";
 import { encodeParam } from "@/utils";
+import message from "@/components/message";
 
-export default function LoginPage() {
+export default function PasswordResetPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [apiError, setApiError] = useState<string | null>(null);
@@ -49,7 +50,7 @@ export default function LoginPage() {
   return (
     <AuthPage>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {apiError && <Message message={apiError} type="error" />}
+        {apiError && <Message message={apiError} type={"error"} />}
         <Input
           label="email"
           type="email"

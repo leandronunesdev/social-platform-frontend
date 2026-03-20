@@ -14,7 +14,7 @@ import { ValidateCodeData, validateCodeSchema } from "./schema";
 import AuthLink from "@/components/auth-link";
 import { encodeParam } from "@/utils";
 
-export default function LoginPage() {
+export default function ValidateCodePage() {
   const router = useRouter();
   const RESEND_SECONDS = 60;
 

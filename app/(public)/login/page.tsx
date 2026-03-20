@@ -10,14 +10,23 @@ import { LoginFormData, loginSchema } from "./schema";
 import { useState } from "react";
 import { login } from "@/lib/api/auth";
 import { saveToken } from "@/lib/auth/token";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { ApiClientError } from "@/lib/api/client";
 import Message from "@/components/message";
+import { PASSWORD_RESET } from "./constants";
 
 export default function LoginPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [apiError, setApiError] = useState<string | null>(null);
+
+  const from = useSearchParams().get("from");
+  const message =
+    from === PASSWORD_RESET
+      ? "Password updated successfully. You can now sign in."
+      : apiError;
+
+  console.log("from", from);
 
   const {
     register,
@@ -49,8 +58,9 @@ export default function LoginPage() {
   return (
     <AuthPage>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {apiError && <Message message={apiError} />}
-
+        {message && (
+          <Message message={message} type={apiError ? "error" : "info"} />
+        )}
         <Input
           label="email"
           type="email"
@@ -58,8 +68,8 @@ export default function LoginPage() {
           placeholder="user@socialmedia.com"
           register={register}
           error={errors.email}
+          disabled={isLoading}
         />
-
         <Input
           label="password"
           type="password"
@@ -68,8 +78,8 @@ export default function LoginPage() {
           className="pb-2"
           register={register}
           error={errors.password}
+          disabled={isLoading}
         />
-
         <AuthLink
           text={""}
           linkText="Forgot your password?"

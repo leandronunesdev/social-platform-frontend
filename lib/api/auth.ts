@@ -70,3 +70,17 @@ export async function validateCode(
     requireAuth: false,
   });
 }
+
+type NewPasswordData = ValidateCodeDataPayload & {
+  newPassword: string;
+};
+
+export async function setNewPassword(
+  data: NewPasswordData
+): Promise<BaseApiResponse> {
+  return apiClient<BaseApiResponse>("/auth/setNewPassword", {
+    method: "POST",
+    body: data,
+    requireAuth: false,
+  });
+}
