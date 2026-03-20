@@ -12,7 +12,6 @@ import { useRouter } from "next/navigation";
 import { ApiClientError } from "@/lib/api/client";
 import Message from "@/components/message";
 import { encodeParam } from "@/utils";
-import message from "@/components/message";
 
 export default function PasswordResetPage() {
   const router = useRouter();
