@@ -11,6 +11,7 @@ import { passwordReset } from "@/lib/api/auth";
 import { useRouter } from "next/navigation";
 import { ApiClientError } from "@/lib/api/client";
 import Message from "@/components/message";
+import { encodeParam } from "@/utils";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -31,7 +32,9 @@ export default function LoginPage() {
 
     try {
       await passwordReset(data);
-      router.push("/password-reset/validate-code");
+      router.push(
+        `/password-reset/validate-code?email=${encodeParam(data.email)}`
+      );
     } catch (error) {
       if (error instanceof ApiClientError) {
         setApiError(error.message);
@@ -46,7 +49,7 @@ export default function LoginPage() {
   return (
     <AuthPage>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {apiError && <Message message={apiError} />}
+        {apiError && <Message message={apiError} type="error" />}
         <Input
           label="email"
           type="email"

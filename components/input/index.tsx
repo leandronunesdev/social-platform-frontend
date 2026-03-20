@@ -2,32 +2,35 @@ import { UseFormRegister, FieldError } from "react-hook-form";
 import Hide from "@/public/images/Hide.svg";
 import Show from "@/public/images/Show.svg";
 import Image from "next/image";
-import { boolean } from "zod";
 import { useState } from "react";
 
 type InputProps = {
   label: string;
-  type: string;
+  type?: string;
   placeholder?: string;
   id: string;
-  paddingBottom?: string;
+  className?: string;
   register?: UseFormRegister<any>;
   error?: FieldError;
+  disabled?: boolean;
+  maxLength?: number;
 };
 
 const Input = ({
   label,
-  type,
+  type = "text",
   placeholder,
   id,
-  paddingBottom = "pb-6",
+  className = "pb-6",
   register,
   error,
+  disabled,
+  maxLength,
 }: InputProps) => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   return (
-    <div className={paddingBottom}>
+    <div className={className}>
       <label
         htmlFor={id}
         className={error ? "text-red-600" : "text-primary-950"}
@@ -40,11 +43,16 @@ const Input = ({
           id={id}
           {...(register ? register(id) : { name: id })}
           placeholder={placeholder}
-          className={`w-full h-10 rounded-lg shadow-sm px-3 pr-10 focus:outline-none ${
+          className={`w-full h-10 rounded-lg shadow-sm px-3 pr-10 focus:outline-none  ${
             error ? "bg-red-50" : ""
           }`}
           aria-invalid={!!error}
           aria-describedby={error?.message}
+          disabled={disabled}
+          maxLength={maxLength}
+          {...(type === "number"
+            ? { inputMode: "numeric", pattern: "[0-9]*" }
+            : {})}
         />
         {type === "password" && (
           <button

@@ -3,6 +3,7 @@ import apiClient from "./client";
 import type { RegisterFormData } from "@/app/(public)/register/schema";
 import { LoginFormData } from "@/app/(public)/login/schema";
 import { PasswordResetFormData } from "@/app/(public)/password-reset/schema";
+import { ValidateCodeData } from "@/app/(public)/password-reset/validate-code/schema";
 
 type BaseApiResponse = {
   message: string;
@@ -50,6 +51,20 @@ export async function passwordReset(
   data: PasswordResetFormData
 ): Promise<BaseApiResponse> {
   return apiClient<BaseApiResponse>("/auth/passwordReset", {
+    method: "POST",
+    body: data,
+    requireAuth: false,
+  });
+}
+
+type ValidateCodeDataPayload = ValidateCodeData & {
+  email: string;
+};
+
+export async function validateCode(
+  data: ValidateCodeDataPayload
+): Promise<BaseApiResponse> {
+  return apiClient<BaseApiResponse>("/auth/validateCode", {
     method: "POST",
     body: data,
     requireAuth: false,

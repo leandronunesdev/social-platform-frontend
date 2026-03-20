@@ -92,7 +92,7 @@ export default function RegisterPage() {
           type="password"
           id="confirmPassword"
           placeholder="**********"
-          paddingBottom="pb-12"
+          className="pb-12"
           register={register}
           error={errors.confirmPassword}
         />
@@ -100,7 +100,7 @@ export default function RegisterPage() {
         <Button
           type="submit"
           label={isLoading ? "signing up..." : "sign up"}
-          marginBottom="mb-8"
+          className="mb-8"
           disabled={isLoading}
         />
 

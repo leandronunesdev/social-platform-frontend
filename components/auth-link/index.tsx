@@ -1,22 +1,46 @@
 import Link from "next/link";
 
-type AuthLinkProps = {
+type BaseProps = {
   text: string;
   linkText: string;
-  href: string;
+  className?: string;
 };
 
-const AuthLink = ({ text, linkText, href }: AuthLinkProps) => {
+type HrefProps = BaseProps & {
+  href: string;
+  onClick?: never;
+};
+
+type ClickProps = BaseProps & {
+  onClick: () => void;
+  href?: never;
+};
+
+type AuthLinkProps = HrefProps | ClickProps;
+
+const AuthLink = ({
+  text,
+  linkText,
+  href,
+  className,
+  onClick,
+}: AuthLinkProps) => {
+  const linkClasses =
+    "underline hover:text-primary-500 transition-colors duration-200";
+
   return (
-    <div className="text-center">
+    <div className={`text-center ${className}`}>
       <span className="text-primary-950">
         {text}{" "}
-        <Link
-          href={href}
-          className="underline hover:text-primary-500 transition-colors duration-200"
-        >
-          {linkText}
-        </Link>
+        {href ? (
+          <Link href={href} className={linkClasses}>
+            {linkText}
+          </Link>
+        ) : (
+          <button type="button" onClick={onClick} className={linkClasses}>
+            {linkText}
+          </button>
+        )}
       </span>
     </div>
   );
