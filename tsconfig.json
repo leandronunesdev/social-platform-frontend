@@ -15,6 +15,8 @@
     "incremental": true,
     "typeRoots": ["./node_modules/@types", "./types"],
     "types": ["node", "jest", "@testing-library/jest-dom"],
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "plugins": [
       {
         "name": "next"
@@ -34,9 +36,5 @@
     "jest.setup.js",
     "types/**/*.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "cypress",
-    "cypress.config.ts"
-  ]
+  "exclude": ["node_modules", "cypress", "cypress.config.ts"]
 }

@@ -1,11 +1,11 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import ErrorMessage from ".";
+import Message from ".";
 
 describe("Error Message Component", () => {
   it("should render with a message", () => {
-    render(<ErrorMessage message="Error" />);
+    render(<Message message="Error" />);
 
     expect(screen.getByText("Error")).toBeInTheDocument();
   });
