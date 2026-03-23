@@ -78,7 +78,7 @@ describe("Input Component", () => {
       />
     );
 
-    const label = screen.getByLabelText("Email").previousElementSibling;
+    const label = screen.getByText("Email");
     const input = screen.getByLabelText("Email");
 
     // Label should have red text color
@@ -91,7 +91,7 @@ describe("Input Component", () => {
   it("should apply normal styling when no error", () => {
     render(<Input label="Email" type="email" id="email" />);
 
-    const label = screen.getByLabelText("Email").previousElementSibling;
+    const label = screen.getByText("Email");
     const input = screen.getByLabelText("Email");
 
     // Label should have normal text color

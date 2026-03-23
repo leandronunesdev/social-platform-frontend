@@ -12,7 +12,7 @@ import { registerSchema, type RegisterFormData } from "./schema";
 import { registerAccount } from "@/lib/api/auth";
 import { ApiClientError } from "@/lib/api/client";
 import { saveToken } from "@/lib/auth/token";
-import ErrorMessage from "@/components/error-message";
+import Message from "@/components/message";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -49,7 +49,7 @@ export default function RegisterPage() {
   return (
     <AuthPage>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {apiError && <ErrorMessage message={apiError} />}
+        {apiError && <Message message={apiError} />}
 
         <Input
           label="name"
@@ -92,7 +92,7 @@ export default function RegisterPage() {
           type="password"
           id="confirmPassword"
           placeholder="**********"
-          paddingBottom="pb-12"
+          className="pb-12"
           register={register}
           error={errors.confirmPassword}
         />
@@ -100,7 +100,7 @@ export default function RegisterPage() {
         <Button
           type="submit"
           label={isLoading ? "signing up..." : "sign up"}
-          marginBottom="mb-8"
+          className="mb-8"
           disabled={isLoading}
         />
 

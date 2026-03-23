@@ -7,11 +7,6 @@ type RequestConfig = {
   requireAuth?: boolean; // Whether to attach auth token
 };
 
-type ApiError = {
-  message: string;
-  status: number;
-};
-
 export class ApiClientError extends Error {
   status: number;
 

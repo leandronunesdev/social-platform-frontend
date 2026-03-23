@@ -20,7 +20,6 @@ export default function PublicLayout({
     }
   }, [router]);
 
-  // Don't render children while checking or if authenticated
   if (isChecking || isTokenValid()) {
     return null;
   }
